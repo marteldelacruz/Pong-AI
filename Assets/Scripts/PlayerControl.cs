@@ -10,6 +10,9 @@ public class PlayerControl : MonoBehaviour
     [HideInInspector]
     private Vector3 MinRecoil = new Vector3(0, 0.05f, 0);
 
+    [Tooltip("Current player speed")]
+    private float Speed = 2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +69,7 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 recoil = (isUp) ? -MinRecoil : MinRecoil;
         Vector3 dir = (isUp) ? Vector3.up : Vector3.down;
-        dir *= Time.deltaTime * 2;
+        dir *= Time.deltaTime * Speed;
 
         if (!IsPlayerOutOfBounds())
             gameObject.transform.position += dir;

@@ -4,7 +4,7 @@ using UnityEngine;
 public class BallMovement : MonoBehaviour
 {
     [Tooltip("Ball speed")]
-    public Vector2 Speed = new Vector2(1, 1);
+    public float Speed = 2f;
     [Tooltip("Ball initial position 3D Vector")]
     public Vector3 InitialPosition = new Vector3(0, 0, -8);
     [Tooltip("Player one score text")]
@@ -26,7 +26,7 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position += BallDirection * Time.deltaTime * 2;
+        gameObject.transform.position += BallDirection * Time.deltaTime * Speed;
     }
 
     /// <summary>
@@ -39,6 +39,17 @@ public class BallMovement : MonoBehaviour
             BallDirection.y *= -1;
         else
             BallDirection.x *= -1;
+    }
+
+    /// <summary>
+    ///     Increases the ball speed by 0.2
+    ///     We need to determinate if the speed increases when
+    ///     a player hits the ball or when a player scores
+    /// </summary>
+    public void IncreaseBallSpeed()
+    {
+        // increase speed
+        Speed += 0.2f;
     }
 
     /// <summary>
@@ -61,5 +72,7 @@ public class BallMovement : MonoBehaviour
             Player1Text.text = text;
         else
             Player2Text.text = text;
+
+        IncreaseBallSpeed();
     }
 }
