@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
@@ -23,7 +21,7 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == Tags.BALL)
+        if (collision.gameObject.CompareTag(Tags.BALL))
         {
             // tag indicator
             switch (gameObject.tag)
