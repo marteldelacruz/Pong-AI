@@ -32,6 +32,7 @@ public class BallMovement : MonoBehaviour
     /// <summary>
     ///     Changes the ball direction
     /// </summary>
+    /// <param name="isYAxis">  Indicates if the Y axis is going to change. </param>
     public void ChangeBallDirection(bool isYAxis=true)
     {
         if (isYAxis)
@@ -41,21 +42,24 @@ public class BallMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///     Updates the score text shown on the top of the screen.
+    ///     Each player has a text.
     /// </summary>
+    /// <param name="isPlayer1">    Indicates if the player one has scored.   </param>
     public void UpdateScore(bool isPlayer1=true)
     {
+        // current score text and new format
         string text = (isPlayer1) ? Player1Text.text : Player2Text.text;
-        
+        text = string.Format("{0:00}", int.Parse(text) + 1);
+
         // ball initial position
         gameObject.transform.position = InitialPosition;
-        // also change direction 
         ChangeBallDirection(false);
 
         // update score text
         if (isPlayer1)
-            Player1Text.text = string.Format("{0:00}", int.Parse(text) + 1);
+            Player1Text.text = text;
         else
-            Player2Text.text = string.Format("{0:00}", int.Parse(text) + 1);
+            Player2Text.text = text;
     }
 }

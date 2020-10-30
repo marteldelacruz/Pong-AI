@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollitionDetection : MonoBehaviour
+public class CollisionDetection : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class CollitionDetection : MonoBehaviour
     }
 
     /// <summary>
-    ///     Detects the collition with the ball on a wall
+    ///     Detects the collision with the ball on a wall
     /// </summary>
     /// <param name="collision"></param>
 
