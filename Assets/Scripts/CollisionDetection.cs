@@ -19,21 +19,22 @@ public class CollisionDetection : MonoBehaviour
     /// <summary>
     ///     Detects the collision with the ball on a wall
     /// </summary>
-    /// <param name="collision"></param>
+    /// <param name="collision">  Current collider object.  </param>
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ball")
+        if (collision.gameObject.tag == Tags.BALL)
         {
+            // tag indicator
             switch (gameObject.tag)
             {
-                case "Player":
+                case Tags.PLAYER:
                     collision.gameObject.GetComponent<BallMovement>().ChangeBallDirection(false);
                     break;
-                case "LeftWall":
+                case Tags.LEFT_WALL:
                     collision.gameObject.GetComponent<BallMovement>().UpdateScore(false);
                     break;
-                case "RightWall":
+                case Tags.RIGHT_WALL:
                     collision.gameObject.GetComponent<BallMovement>().UpdateScore();
                     break;
                 default:
