@@ -13,6 +13,7 @@ public class BallMovement : MonoBehaviour
     public TextMeshProUGUI Player2Text;
 
     private Vector3 BallDirection;
+    private float MAX_SPEED = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class BallMovement : MonoBehaviour
     public void IncreaseBallSpeed()
     {
         // increase speed
-        Speed += 0.2f;
+        Speed = Mathf.Clamp(0.2f + Speed,2, MAX_SPEED);
     }
 
     /// <summary>
