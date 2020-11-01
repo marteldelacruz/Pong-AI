@@ -25,7 +25,7 @@ public class BallMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         gameObject.transform.position += BallDirection * Time.deltaTime * Speed;
     }
@@ -34,12 +34,18 @@ public class BallMovement : MonoBehaviour
     ///     Changes the ball direction
     /// </summary>
     /// <param name="isYAxis">  Indicates if the Y axis is going to change. </param>
-    public void ChangeBallDirection(bool isYAxis=true)
+    public void ChangeBallDirection(Vector3 playerFrictionDir, bool isYAxis = true)
     {
         if (isYAxis)
+            //  Occurs for walls
             BallDirection.y *= -1;
         else
+        {
+            // Occurs for players
             BallDirection.x *= -1;
+            if (playerFrictionDir.y != 0)
+                BallDirection.y = Mathf.Sign(playerFrictionDir.y);
+        }
     }
 
     /// <summary>
@@ -66,7 +72,7 @@ public class BallMovement : MonoBehaviour
 
         // ball initial position
         gameObject.transform.position = InitialPosition;
-        ChangeBallDirection(false);
+        ChangeBallDirection(Vector3.zero, false);
 
         // update score text
         if (isPlayer1)

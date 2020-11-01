@@ -1,20 +1,17 @@
-﻿using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
     [Tooltip("Current player speed")]
     private float Speed = 10f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    [HideInInspector]
+    public Vector3 MovementDir = Vector3.zero;
+    
     // Update is called once per frame
     void Update()
     {
+        MovementDir.y = 0;
         DeterminatePlayerMovement();
     }
 
@@ -45,9 +42,9 @@ public class PlayerControl : MonoBehaviour
     /// <param name="isUp"> Are we moving up?   </param>
     private void MovePlayer(bool isUp=true)
     {
-        Vector3 dir = (isUp) ? Vector3.up : Vector3.down;
-        dir *= Time.deltaTime * Speed;
+        MovementDir = (isUp) ? Vector3.up : Vector3.down;
+        MovementDir *= Time.deltaTime * Speed;
 
-        gameObject.transform.position += dir;
+        gameObject.transform.position += MovementDir;
     }
 }

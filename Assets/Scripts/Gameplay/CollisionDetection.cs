@@ -2,18 +2,6 @@
 
 public class CollisionDetection : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     ///     Detects the collision with the ball on a wall
     /// </summary>
@@ -26,7 +14,8 @@ public class CollisionDetection : MonoBehaviour
             switch (gameObject.tag)
             {
                 case Tags.PLAYER:
-                    collision.gameObject.GetComponent<BallMovement>().ChangeBallDirection(false);
+                    collision.gameObject.GetComponent<BallMovement>()
+                        .ChangeBallDirection(GetComponent<PlayerControl>().MovementDir, false);
                     collision.gameObject.GetComponent<BallMovement>().IncreaseBallSpeed();
                     break;
                 case Tags.LEFT_WALL:
@@ -36,7 +25,7 @@ public class CollisionDetection : MonoBehaviour
                     collision.gameObject.GetComponent<BallMovement>().UpdateScore();
                     break;
                 default:
-                    collision.gameObject.GetComponent<BallMovement>().ChangeBallDirection();
+                    collision.gameObject.GetComponent<BallMovement>().ChangeBallDirection(Vector3.zero);
                     break;
             }
 
