@@ -8,7 +8,7 @@ public class BallMovement : MonoBehaviour
     [Tooltip("Ball speed")]
     public float Speed = 2f;
     [Tooltip("Ball initial position 3D Vector")]
-    public Vector3 InitialPosition = new Vector3(0, 0, -8);
+    public Vector3 InitialPosition = new Vector3(0, 1, 0);
 
 
     private Vector3 BallDirection;
@@ -18,7 +18,7 @@ public class BallMovement : MonoBehaviour
     void Start()
     {
         // ball initial position
-        gameObject.transform.position = InitialPosition;
+        gameObject.transform.localPosition = InitialPosition;
         // new direction
         BallDirection = new Vector3(1, 1, 0);
     }
@@ -45,6 +45,14 @@ public class BallMovement : MonoBehaviour
             if (playerFrictionDir.y != 0)
                 BallDirection.y = Mathf.Sign(playerFrictionDir.y);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void BigCuellarChangeBallDirection()
+    {
+        BallDirection.x *= -1;
     }
 
     /// <summary>

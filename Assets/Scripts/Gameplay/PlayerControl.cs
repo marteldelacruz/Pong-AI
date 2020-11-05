@@ -7,12 +7,17 @@ public class PlayerControl : MonoBehaviour
 
     [HideInInspector]
     public Vector3 MovementDir = Vector3.zero;
+
+    public bool UserInput = true;
     
     // Update is called once per frame
     void Update()
     {
-        MovementDir.y = 0;
-        DeterminatePlayerMovement();
+        if (UserInput)
+        {
+            MovementDir.y = 0;
+            DeterminatePlayerMovement();
+        }
     }
 
     /// <summary>
