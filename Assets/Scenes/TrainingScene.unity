@@ -713,9 +713,9 @@ GameObject:
   - component: {fileID: 739303191}
   - component: {fileID: 739303192}
   - component: {fileID: 739303193}
+  - component: {fileID: 739303194}
   - component: {fileID: 739303195}
   - component: {fileID: 739303196}
-  - component: {fileID: 739303194}
   m_Layer: 0
   m_Name: Down
   m_TagString: Untagged
@@ -823,10 +823,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 739303190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8bb09a002b215d4ab678e41e8c4f67e, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ed99eb3c353cb4eab308f447b87f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuteAudio: 0
 --- !u!50 &739303195
 Rigidbody2D:
   serializedVersion: 4
@@ -1162,7 +1161,6 @@ GameObject:
   - component: {fileID: 808964652}
   - component: {fileID: 808964653}
   - component: {fileID: 808964654}
-  - component: {fileID: 808964655}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -1275,6 +1273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   InitialPosition: {x: 0, y: 0, z: -8}
+  Player1Text: {fileID: 1390385530}
+  Player2Text: {fileID: 1266691276}
 --- !u!50 &808964654
 Rigidbody2D:
   serializedVersion: 4
@@ -1296,20 +1296,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &808964655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808964649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 220e67ebc1df32947b301abd3a058158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsTraining: 1
-  Limits: {x: -5.2, y: 5.2}
 --- !u!1 &813314438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,11 +1416,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 813314438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d9d1790d3591e4ea49a8b544b5f150, type: 3}
+  m_Script: {fileID: 11500000, guid: d700913d0e3676c4c87a77b35eeafb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreManager: {fileID: 1951798888}
-  MuteAudio: 0
 --- !u!82 &813314443
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3159,7 +3143,6 @@ GameObject:
   - component: {fileID: 1305141201}
   - component: {fileID: 1305141202}
   - component: {fileID: 1305141203}
-  - component: {fileID: 1305141204}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -3267,10 +3250,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1305141196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb1774f9e44a69b4ebdc7a8ee95b2eb4, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ed99eb3c353cb4eab308f447b87f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuteAudio: 0
 --- !u!114 &1305141201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3401,19 +3383,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1305141204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305141196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b30ce94ff5d91eb4195305bf46110a49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerText: {fileID: 1266691276}
 --- !u!1 &1338173267
 GameObject:
   m_ObjectHideFlags: 0
@@ -4661,11 +4630,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1573664725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d9d1790d3591e4ea49a8b544b5f150, type: 3}
+  m_Script: {fileID: 11500000, guid: d700913d0e3676c4c87a77b35eeafb8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreManager: {fileID: 1305141204}
-  MuteAudio: 0
 --- !u!82 &1573664730
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5253,9 +5220,9 @@ GameObject:
   - component: {fileID: 1762131518}
   - component: {fileID: 1762131519}
   - component: {fileID: 1762131520}
+  - component: {fileID: 1762131521}
   - component: {fileID: 1762131522}
   - component: {fileID: 1762131523}
-  - component: {fileID: 1762131521}
   m_Layer: 0
   m_Name: Up
   m_TagString: Untagged
@@ -5363,10 +5330,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1762131517}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8bb09a002b215d4ab678e41e8c4f67e, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ed99eb3c353cb4eab308f447b87f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuteAudio: 0
 --- !u!50 &1762131522
 Rigidbody2D:
   serializedVersion: 4
@@ -5793,11 +5759,10 @@ GameObject:
   - component: {fileID: 1951798882}
   - component: {fileID: 1951798881}
   - component: {fileID: 1951798883}
-  - component: {fileID: 1951798885}
   - component: {fileID: 1951798884}
+  - component: {fileID: 1951798885}
   - component: {fileID: 1951798886}
   - component: {fileID: 1951798887}
-  - component: {fileID: 1951798888}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -5905,10 +5870,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951798880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb1774f9e44a69b4ebdc7a8ee95b2eb4, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ed99eb3c353cb4eab308f447b87f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuteAudio: 0
 --- !u!114 &1951798885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6039,19 +6003,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1951798888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1951798880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b30ce94ff5d91eb4195305bf46110a49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerText: {fileID: 1390385530}
 --- !u!1 &1985824956
 GameObject:
   m_ObjectHideFlags: 0

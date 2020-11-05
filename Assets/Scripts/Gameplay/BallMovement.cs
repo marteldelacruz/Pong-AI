@@ -9,10 +9,7 @@ public class BallMovement : MonoBehaviour
     public float Speed = 2f;
     [Tooltip("Ball initial position 3D Vector")]
     public Vector3 InitialPosition = new Vector3(0, 0, -8);
-    [Tooltip("Player one score text")]
-    public TextMeshProUGUI Player1Text;
-    [Tooltip("Player two score text")]
-    public TextMeshProUGUI Player2Text;
+
 
     private Vector3 BallDirection;
     private float MAX_SPEED = 10;
@@ -51,6 +48,15 @@ public class BallMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public void RestartBallPosition()
+    {
+        gameObject.transform.position = InitialPosition;
+        BallDirection.x *= -1;
+    }
+
+    /// <summary>
     ///     Increases the ball speed by 0.2
     ///     We need to determinate if the speed increases when
     ///     a player hits the ball or when a player scores
@@ -59,29 +65,5 @@ public class BallMovement : MonoBehaviour
     {
         // increase speed
         Speed = Mathf.Clamp(0.2f + Speed,2, MAX_SPEED);
-    }
-
-    /// <summary>
-    ///     Updates the score text shown on the top of the screen.
-    ///     Each player has a text.
-    /// </summary>
-    /// <param name="isPlayer1">    Indicates if the player one has scored.   </param>
-    public void UpdateScore(bool isPlayer1=true)
-    {
-        // current score text and new format
-        string text = (isPlayer1) ? Player1Text.text : Player2Text.text;
-        text = string.Format("{0:00}", int.Parse(text) + 1);
-
-        // ball initial position
-        gameObject.transform.position = InitialPosition;
-        ChangeBallDirection(Vector3.zero, false);
-
-        // update score text
-        if (isPlayer1)
-            Player1Text.text = text;
-        else
-            Player2Text.text = text;
-
-        IncreaseBallSpeed();
     }
 }
