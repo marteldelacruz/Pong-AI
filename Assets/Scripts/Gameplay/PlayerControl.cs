@@ -2,16 +2,25 @@
 
 public class PlayerControl : MonoBehaviour
 {
+    [Header("Translate options")]
     [Tooltip("Current player speed")]
-    private float Speed = 10f;
-
+    [SerializeField]
+    private float Speed = 20f;
+    [Header("Input")]
+    [Tooltip("Allow keyboard input?")]
+    public bool UserInput = true;
     [HideInInspector]
     public Vector3 MovementDir = Vector3.zero;
 
-    public bool UserInput = true;
-    
+    private Rigidbody playerRigidbody = null;
+
+    private void Start()
+    {
+        playerRigidbody = GetComponent<Rigidbody>();
+    }
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (UserInput)
         {
@@ -31,6 +40,8 @@ public class PlayerControl : MonoBehaviour
                 MovePlayer();
             else if (Input.GetKey(KeyCode.S))
                 MovePlayer(false);
+            else
+                playerRigidbody.velocity = Vector3.zero;
         }
         else   
         {
@@ -38,6 +49,8 @@ public class PlayerControl : MonoBehaviour
                 MovePlayer();
             else if (Input.GetKey(KeyCode.DownArrow))
                 MovePlayer(false);
+            else
+                playerRigidbody.velocity = Vector3.zero;
         }
     }
 
@@ -50,6 +63,6 @@ public class PlayerControl : MonoBehaviour
         MovementDir = (isUp) ? Vector3.up : Vector3.down;
         MovementDir *= Time.deltaTime * Speed;
 
-        gameObject.transform.position += MovementDir;
+        playerRigidbody.velocity = MovementDir * Speed;
     }
 }

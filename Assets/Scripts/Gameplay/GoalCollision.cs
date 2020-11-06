@@ -5,26 +5,20 @@ using UnityEngine;
 public class GoalCollision : MonoBehaviour
 {
     public ScoreManager ScoreManager;
-    public bool MuteAudio;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        MuteAudio = true;
-    }
+    public bool MuteAudio = true;
 
     /// <summary>
-    ///     Detects the collision with the ball on a wall
+    ///     Detects the collision with the ball and scores a point to the player's score
     /// </summary>
-    /// <param name="collision">  Current collider object.  </param>
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <param name="other">  Current collider object.  </param>
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag(Tags.BALL))
+        if (other.gameObject.CompareTag(Tags.BALL))
         {
             // tag indicator
             ScoreManager.UpdateScore();
             // restart position
-            collision.GetComponent<RandomBallThrow>().Respawn();
+            other.GetComponent<RandomBallThrow>().Respawn();
 
             if (!MuteAudio)
                 GetComponent<AudioSource>().Play(0);

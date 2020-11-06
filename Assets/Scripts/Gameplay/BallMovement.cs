@@ -14,6 +14,8 @@ public class BallMovement : MonoBehaviour
     private Vector3 BallDirection;
     private float MAX_SPEED = 10;
 
+    public float Ydirection { set { BallDirection.y = value; } }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        gameObject.transform.position += BallDirection * Time.deltaTime * Speed;
+        gameObject.transform.localPosition += BallDirection * Time.deltaTime * Speed;
     }
 
     /// <summary>

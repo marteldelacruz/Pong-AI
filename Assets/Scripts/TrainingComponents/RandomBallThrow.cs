@@ -2,18 +2,25 @@
 
 public class RandomBallThrow : MonoBehaviour
 {
+    [Header("Training settings")]
+    [Tooltip("If true, will spawn respawn the ball on random positions")]
     public bool IsTraining = false;
+    [Tooltip("Level height on Y axis")]
     public Vector2 Limits = new Vector2(-5.2f, 5.2f);
-    public static System.Random Rand = new System.Random();
+
+    //  Random instance
+    private static System.Random Rand = new System.Random();
+    // Reference to ball's movement
+    private BallMovement bMovement;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        bMovement = GetComponent<BallMovement>();
     }
 
     /// <summary>
-    /// 
+    ///     Computes random position of next ball
     /// </summary>
     public void RandomPosition()
     {
@@ -21,16 +28,17 @@ public class RandomBallThrow : MonoBehaviour
         pos.x = 0;
         pos.y = ((float)Rand.NextDouble() * Mathf.Abs(Limits.x - Limits.y)) + Limits.x ;
         gameObject.transform.position = pos;
+        bMovement.Ydirection = ((float)Rand.NextDouble() * 2) - 1;
     }
 
     /// <summary>
-    /// 
+    ///     Positions the ball at some position
     /// </summary>
     public void Respawn()
     {
         if (IsTraining)
             RandomPosition();
         else
-            GetComponent<BallMovement>().RestartBallPosition();
+            bMovement.RestartBallPosition();
     }
 }

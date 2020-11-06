@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    public bool MuteAudio;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        MuteAudio = true;
-    }
+    public bool MuteAudio = true;
 
     /// <summary>
     ///     Detects the collision with the ball on a wall
     /// </summary>
     /// <param name="collision">  Current collider object.  </param>
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag(Tags.BALL))
         {

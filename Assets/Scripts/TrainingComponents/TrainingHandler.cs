@@ -11,14 +11,8 @@ public class TrainingHandler : MonoBehaviour
         DuplicatePlayers();   
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
-    /// 
+    ///     Creates players population
     /// </summary>
     public void DuplicatePlayers()
     {
@@ -26,7 +20,7 @@ public class TrainingHandler : MonoBehaviour
         {
             GameObject newInidividual = Instantiate(Indiviual);
             Vector3 pos = newInidividual.transform.position;
-            pos.z += i + 1;
+            pos.z = -(i + 1);
             newInidividual.transform.position = pos;
         }
     }
