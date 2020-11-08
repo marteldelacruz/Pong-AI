@@ -1,13 +1,14 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using UnityEngine;
 
 namespace Multilayer_Backprop
 {
     /// <summary>
     ///     Represents a neural network 
     /// </summary>
-    class NeuralNet
+    public class NeuralNet
     {
-        private Layer[] layers;
+        public Layer[] layers;
         private float ETA;
 
         /// <summary>
@@ -19,13 +20,40 @@ namespace Multilayer_Backprop
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Matrix<float> LayerGetW(int index)
+        {
+            return layers[index].W;
+        }
+
+        /// <summary>
+        ///     Computes the output of the given position of the ball
+        /// </summary>
+        /// <param name="ballDirection"> Current ball direction </param>
+        /// <returns>   Float with the output value </returns>
+        public float Compute(Vector2 ballDirection)
+        {
+            Matrix<float> y;
+            Matrix<float> input = Matrix<float>.Build.DenseOfArray(new float[,] {
+                { ballDirection.x, ballDirection.y , -1}
+            });
+
+            ForwardProp(input, out y);
+
+            return y[0, 0];
+        }
+
+        /// <summary>
         ///     Builds a new neural network based on the given topology
         /// </summary>
         /// <param name="inputSize">    Size of the Input layer (training sample's dimension size)  </param>
         /// <param name="topology">     Number of neurons in each layer                             </param>
         public void Init(int inputSize, int[] topology)
         {
-            int dim = inputSize; // x1 and x2 (bias is added within Layer
+            int dim = inputSize; // x1 and x2 (bias is added within Layer)
 
             layers = new Layer[topology.Length];
 

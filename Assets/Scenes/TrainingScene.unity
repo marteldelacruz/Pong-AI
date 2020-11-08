@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 88308193}
   - component: {fileID: 88308192}
   - component: {fileID: 88308191}
+  - component: {fileID: 88308195}
   - component: {fileID: 88308190}
   - component: {fileID: 88308189}
   - component: {fileID: 88308188}
@@ -233,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 25
-  UserInput: 1
+  UserInput: 0
   MovementDir: {x: 0, y: 0, z: 0}
 --- !u!54 &88308191
 Rigidbody:
@@ -411,6 +412,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &88308195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88308186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48adbb784bff0af478336ea019c7b885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 1976214169}
+  Topology: 0600000001000000
+  Desired: 0
+  y: 0
+  Error: 0
+  ErrorSum: 0
 --- !u!1 &131358580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,8 +1149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f72d6700ea2aef4b9dfc47b9051dc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotalIndividuals: 10
-  Indiviual: {fileID: 956954769}
+  TotalPlayers: 10
+  BestPlayerIndex: 0
+  DisabledPlayers: 0
+  Individual: {fileID: 956954769}
+  Individuals: []
+  Parent: {fileID: 1629427925}
+  F: 1.6
+  CR: 0.6
 --- !u!4 &647942266
 Transform:
   m_ObjectHideFlags: 0
@@ -3917,8 +3942,8 @@ GameObject:
   - component: {fileID: 1579400978}
   - component: {fileID: 1579400982}
   - component: {fileID: 1579400981}
-  - component: {fileID: 1579400980}
   - component: {fileID: 1579400979}
+  - component: {fileID: 1579400980}
   m_Layer: 0
   m_Name: Left
   m_TagString: LeftWall
@@ -3949,10 +3974,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1579400977}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d9d1790d3591e4ea49a8b544b5f150, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b17f9043adfa8c499c4e6fadf445216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreManager: {fileID: 1582721385}
+  ThisInidivial: {fileID: 956954769}
+  TrainingHandler: {fileID: 647942265}
   MuteAudio: 1
 --- !u!82 &1579400980
 AudioSource:
@@ -4174,7 +4200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaff7b984c1ac0c46bfb58c57498c0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuteAudio: 0
+  MuteAudio: 1
 --- !u!82 &1582721387
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5505,7 +5531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220e67ebc1df32947b301abd3a058158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTraining: 1
+  IsTraining: 0
   Limits: {x: -5.2, y: 5.2}
 --- !u!114 &1976214169
 MonoBehaviour:
@@ -5521,6 +5547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   InitialPosition: {x: 0, y: 0, z: -8}
+  BallDirection: {x: 0, y: 0, z: 0}
 --- !u!54 &1976214170
 Rigidbody:
   m_ObjectHideFlags: 0

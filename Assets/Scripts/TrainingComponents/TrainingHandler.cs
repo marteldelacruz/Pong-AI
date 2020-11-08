@@ -1,14 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TrainingHandler : MonoBehaviour
 {
-    public int TotalIndividuals = 2;
-    public GameObject Indiviual;
+    public int TotalPlayers = 10;
+    public int DisabledPlayers = 0;
+    public GameObject Individual;
+    public PlayerAI[] Individuals;
+    public GameObject Parent;
+    private DiferentialEvolution DiferentialEvolution;
+    
+    Vector3 pos;
 
     // Start is called before the first frame update
     void Start()
     {
-        DuplicatePlayers();   
+        Individuals = new PlayerAI[TotalPlayers];
+        pos = Individual.transform.position;
+        DuplicatePlayers();
+        StartCoroutine(CheckDisabledPlayers());
     }
 
     /// <summary>
@@ -16,12 +26,27 @@ public class TrainingHandler : MonoBehaviour
     /// </summary>
     public void DuplicatePlayers()
     {
-        for (int i = 0; i < TotalIndividuals - 1; i++)
+        for (int i = 0; i < TotalPlayers - 1; i++)
         {
-            GameObject newInidividual = Instantiate(Indiviual);
-            Vector3 pos = newInidividual.transform.position;
             pos.z = -(i + 1);
-            newInidividual.transform.position = pos;
+            GameObject newInidividual = Instantiate(Individual, pos, Quaternion.identity, Parent.transform) as GameObject; ;
+            Individuals[i] = newInidividual.GetComponent<PlayerAI>();
+            newInidividual.GetComponentInChildren<PlayerAI>().InitNeuralNet();
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator CheckDisabledPlayers()
+    {
+        while(DisabledPlayers < TotalPlayers)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        // start diferential evolution
+        
     }
 }

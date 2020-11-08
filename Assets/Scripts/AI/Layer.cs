@@ -7,12 +7,12 @@ namespace Multilayer_Backprop
     /// <summary>
     ///     Represents a neural network's layer
     /// </summary>
-    class Layer
+    public class Layer
     {
         public string Name;
         private int numNeurons, inputSize;
-        private Matrix<float> W, Inputs, Outputs, OutputsPrime, Sensitivity;
-
+        public Matrix<float> W, Inputs, Outputs, OutputsPrime, Sensitivity;
+        public static Random r = new Random();
 
         public Layer(int neurons, int inputsDim)
         {
@@ -36,7 +36,6 @@ namespace Multilayer_Backprop
         /// </summary>
         public void Init()
         {
-            Random r = new Random();
             // NxD matrix of this layer (N = num-neurons, D = num-weights), including bias
             W = Matrix<float>.Build.Dense(numNeurons, inputSize);
 

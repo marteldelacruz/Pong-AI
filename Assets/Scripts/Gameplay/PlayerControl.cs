@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Multilayer_Backprop;
+using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class PlayerControl : MonoBehaviour
     ///     Moves the current player up or down
     /// </summary>
     /// <param name="isUp"> Are we moving up?   </param>
-    private void MovePlayer(bool isUp=true)
+    public void MovePlayer(bool isUp=true)
     {
         MovementDir = (isUp) ? Vector3.up : Vector3.down;
         MovementDir *= Time.deltaTime * Speed;

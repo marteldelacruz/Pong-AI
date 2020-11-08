@@ -11,7 +11,7 @@ public class BallMovement : MonoBehaviour
     public Vector3 InitialPosition = new Vector3(0, 1, 0);
 
 
-    private Vector3 BallDirection;
+    public Vector3 BallDirection;
     private float MAX_SPEED = 10;
 
     public float Ydirection { set { BallDirection.y = value; } }
@@ -62,7 +62,7 @@ public class BallMovement : MonoBehaviour
     /// </summary>
     public void RestartBallPosition()
     {
-        gameObject.transform.position = InitialPosition;
+        gameObject.transform.localPosition = InitialPosition;
         BallDirection.x *= -1;
     }
 
