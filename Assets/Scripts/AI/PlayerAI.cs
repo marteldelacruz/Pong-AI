@@ -10,12 +10,30 @@ public class PlayerAI : MonoBehaviour
     public int[] Topology = new int[] { 6, 1 };
     public NeuralNet Net;
     public float Desired, y, Error, ErrorSum;
-    public List<Vector2> BallPositions = new List<Vector2>();
+
+    public Dataset dataset;
+
+    private Vector3 initialPos;
+
+    /// <summary>
+    ///     Gets error average ot this <see cref="PlayerAI"/>'s neural network
+    /// </summary>
+    public float ErrorAvrg { get { return ErrorSum / dataset.NumSamples; } }
 
     // Start is called before the first frame update
     void Start()
     {
         InitNeuralNet();
+    }
+
+    private void OnEnable()
+    {
+        if (dataset == null)
+            InitNeuralNet();
+
+        // Restart dataset after been desabled
+        dataset.Clear();
+        transform.localPosition = initialPos;
     }
 
     // Update is called once per frame
@@ -28,16 +46,21 @@ public class PlayerAI : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///     Computes neural net's output and moves itself
     /// </summary>
     public void AIMovement()
     {
-        BallPositions.Add(Ball.BallDirection);
-        Desired = Ball.BallDirection.y - transform.position.y;
+        if (Ball.transform.position.y == transform.position.y)
+            Desired = 0;
+        else
+            Desired = Mathf.Sign(Ball.transform.position.y - transform.position.y);
+
         y = Net.Compute(Ball.BallDirection);
         Error = (Desired - y) * (Desired - y);
         ErrorSum += Error;
 
+        dataset.AddSample(Ball.BallDirection, Desired);
+        
         if (y > 0)
             GetComponent<PlayerControl>().MovePlayer();
         else if (y < 0)
@@ -50,8 +73,11 @@ public class PlayerAI : MonoBehaviour
     /// </summary>
     public void InitNeuralNet()
     {
+        dataset = new Dataset();
         Net = new NeuralNet();
         Net.Init(2, Topology);
         ErrorSum = 0;
+
+        initialPos = transform.localPosition;
     }
 }
