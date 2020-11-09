@@ -47,6 +47,28 @@ namespace Multilayer_Backprop
         }
 
         /// <summary>
+        /// Computes forward prop with given dataset and returns average error
+        /// </summary>
+        /// <param name="dataset"></param>
+        /// <returns></returns>
+        public float ComputeDataset(Dataset dataset)
+        {
+            var M = Matrix<float>.Build;
+            Matrix<float> input, output;
+
+            // Append -1 constant
+            input = dataset.Samples.Append(M.Dense(dataset.NumSamples, 1, -1));
+            // compute all samples
+            ForwardProp(input, out output);
+            // error
+            output = dataset.Desired - output.Transpose();
+            // power of 2
+            output = output.PointwisePower(2);
+            // get average error of all samples' outputs
+            return output.ColumnSums()[0] / dataset.NumSamples;
+        }
+
+        /// <summary>
         ///     Builds a new neural network based on the given topology
         /// </summary>
         /// <param name="inputSize">    Size of the Input layer (training sample's dimension size)  </param>
