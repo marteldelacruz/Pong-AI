@@ -1150,13 +1150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotalPlayers: 10
-  BestPlayerIndex: 0
   DisabledPlayers: 0
   Individual: {fileID: 956954769}
   Individuals: []
   Parent: {fileID: 1629427925}
-  F: 1.6
-  CR: 0.6
 --- !u!4 &647942266
 Transform:
   m_ObjectHideFlags: 0
