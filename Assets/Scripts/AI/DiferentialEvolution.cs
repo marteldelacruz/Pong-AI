@@ -4,12 +4,16 @@ using System;
 
 public class DiferentialEvolution
 {
-    public int BestPlayerIndex;
     public float F = 1.6f;
     public double CR = 0.6f;
     public PlayerAI[] Individuals;
-    public int[] Topology = new int[] { 6, 1 };
+    public int[] Topology;
     public static Random r = new Random();
+
+    public void Init(PlayerAI[] individuals)
+    {
+        Individuals = individuals;
+    }
 
     /// <summary>
     ///     Generates 3 random number using a highly optimized function
@@ -18,17 +22,17 @@ public class DiferentialEvolution
     private int[] GenerateRandomIndex(int currentIndex)
     {
         int[] indexes = new int[3];
+        bool repeated = true;
 
-        while (true)
+        while (repeated)
         {
             indexes[0] = r.Next(0, Individuals.Length - 1);
             indexes[1] = r.Next(0, Individuals.Length - 1);
             indexes[2] = r.Next(0, Individuals.Length - 1);
 
-            if (indexes[0] != indexes[1] && indexes[0] != indexes[2]
-                && indexes[1] != indexes[2] && indexes[0] != currentIndex
-                && indexes[1] != currentIndex && indexes[2] != currentIndex)
-                break;
+            repeated = (indexes[0] == indexes[1] || indexes[0] == indexes[2] 
+                || indexes[1] == indexes[2] || indexes[0] == currentIndex
+                || indexes[1] == currentIndex || indexes[2] == currentIndex);
         }
 
         return indexes;
@@ -37,8 +41,9 @@ public class DiferentialEvolution
     /// <summary>
     ///     Determinates which player has the best fitness
     /// </summary>
-    private void GetBestPlayer()
+    public int GetBestPlayer()
     {
+        int bestPlayer = 0;
         float error = Individuals[0].ErrorSum;
 
         for (int i = 0; i < Individuals.Length; i++)
@@ -46,61 +51,83 @@ public class DiferentialEvolution
             if (error > Individuals[i].ErrorSum)
             {
                 error = Individuals[i].ErrorSum;
-                BestPlayerIndex = i;
+                bestPlayer = i;
             }
         }
+        return bestPlayer;
     }
 
     /// <summary>
-    ///     Sets the new V values of U vector (weights)
+    ///     Mutates Weight matrix of <paramref name="net"/> on given layer's index
     /// </summary>
-    /// <param name="net">          The u vector net                        </param>
-    /// <param name="index">        The current individual index            </param>
-    /// <param name="layerIndex">   Layer index                             </param>
-    /// <param name="indexes">      Three diferent indexes of individuals   </param>
-    private void SetV(NeuralNet net, int index, int layerIndex, int[] indexes)
+    /// <param name="net">              Neural net to mutate                    </param>
+    /// <param name="currIndividual">   The current individual index            </param>
+    /// <param name="layerIndex">       Layer index                             </param>
+    /// <param name="indexes">          Three diferent indexes of individuals   </param>
+    private void Mutate(NeuralNet net, int currIndividual, int layerIndex, int[] indexes)
     {
-        // curent u weights of layerindex
-        var W = net.layers[layerIndex].W;
+        Matrix<float> W, 
+            X = Individuals[currIndividual].Net.LayerGetW(layerIndex),
+            x1 = Individuals[indexes[0]].Net.LayerGetW(layerIndex),
+            x2 = Individuals[indexes[2]].Net.LayerGetW(layerIndex),
+            x3 = Individuals[indexes[1]].Net.LayerGetW(layerIndex);
 
-        // re-compute using the three diferent individuals
-        W = Individuals[indexes[0]].Net.LayerGetW(layerIndex);
-        W += F * (Individuals[indexes[1]].Net.LayerGetW(layerIndex) 
-            - Individuals[indexes[2]].Net.LayerGetW(layerIndex));
+        // compute "V" using the three diferent individuals
+        W = x1 + F * (x2 - x3);
 
-        // swap process using random and CR value
+        // compute "U" & swap values using random and CR value
         for (int i = 0; i < W.RowCount; i++)
-            for (int j = 0; j < W.RowCount; j++)
+            for (int j = 0; j < W.ColumnCount; j++)
                 if (r.NextDouble() > CR)
-                    W[i, j] = Individuals[index].Net.LayerGetW(layerIndex)[i,j];
+                    //  Set original value of individual
+                    W[i, j] = X[i, j];
 
         // reassing
         net.layers[layerIndex].W = W;
     }
 
     /// <summary>
-    /// 
+    ///     Generates a mutated <see cref="NeuralNet"/> based on the given individual
     /// </summary>
-    private NeuralNet GenerateMutation(int index, int layer)
+    private NeuralNet GenerateMutation(int currIndividual)
     {
-        NeuralNet net = new NeuralNet();
-        net.Init(2, Topology);
-        var indexes = GenerateRandomIndex(index);
+        NeuralNet mutatedNet = new NeuralNet();
+        mutatedNet.Init(2, Topology);
 
-        SetV(net, index, 0, indexes);
-        SetV(net, index, 1, indexes);
+        // find three random individuals
+        var indices = GenerateRandomIndex(currIndividual);
 
+        // mutate layer 0
+        Mutate(mutatedNet, currIndividual, 0, indices);
+        // mutate layer 1
+        Mutate(mutatedNet, currIndividual, 1, indices);
 
+        return mutatedNet;
     }
 
     /// <summary>
-    /// 
+    ///     Start algorithm
     /// </summary>
     public void Algorithm()
     {
+        float y;
+        Topology = Individuals[0].Topology;
+
         for (int i = 0; i < Individuals.Length; i++)
         {
-            Matrix<float> vi = NewMutationLayer(i, 0);
+            var mutatedNet = GenerateMutation(i);
+            // prepare dataset
+            Individuals[i].dataset.Build();
+            // compute
+            y = mutatedNet.ComputeDataset(Individuals[i].dataset);
+            // if error improved
+            if (y < Individuals[i].ErrorAvrg)
+            {
+                // update with mutated net
+                Individuals[i].Net = mutatedNet;
+                // done like this to print correct error average later...
+                Individuals[i].ErrorSum = y * Individuals[i].dataset.NumSamples;
+            }
         }
     }
 }

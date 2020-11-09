@@ -15,9 +15,12 @@ public class TrainingHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DiferentialEvolution = new DiferentialEvolution();
         Individuals = new PlayerAI[TotalPlayers];
         pos = Individual.transform.position;
         DuplicatePlayers();
+
+        // Start waiting...
         StartCoroutine(CheckDisabledPlayers());
     }
 
@@ -30,23 +33,35 @@ public class TrainingHandler : MonoBehaviour
         {
             pos.z = -(i + 1);
             GameObject newInidividual = Instantiate(Individual, pos, Quaternion.identity, Parent.transform) as GameObject; ;
-            Individuals[i] = newInidividual.GetComponent<PlayerAI>();
-            newInidividual.GetComponentInChildren<PlayerAI>().InitNeuralNet();
+            Individuals[i] = newInidividual.GetComponentInChildren<PlayerAI>();
+            Individuals[i].InitNeuralNet();
         }
+        // set last remaining AI
+        Individuals[TotalPlayers - 1] = Individual.GetComponentInChildren<PlayerAI>();
     }
 
     /// <summary>
-    /// 
+    ///     Waits until all players have been disbled, then starts diferential evolution algorithm
     /// </summary>
-    /// <returns></returns>
     public IEnumerator CheckDisabledPlayers()
     {
         while(DisabledPlayers < TotalPlayers)
-        {
             yield return new WaitForEndOfFrame();
-        }
 
         // start diferential evolution
-        
+        DiferentialEvolution.Individuals = Individuals;
+        DiferentialEvolution.Algorithm();
+
+        var xBest = DiferentialEvolution.GetBestPlayer();
+
+        Debug.Log(string.Format("<size=22>  Best player at index {0} with Error={1}</size>", 
+            xBest, Individuals[xBest].ErrorAvrg));
+
+        // Restart all individuals
+        foreach (PlayerAI p in Individuals)
+            p.transform.parent.gameObject.SetActive(true);
+
+        DisabledPlayers = 0;
+        StartCoroutine(CheckDisabledPlayers());
     }
 }
