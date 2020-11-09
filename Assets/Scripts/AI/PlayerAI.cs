@@ -34,6 +34,7 @@ public class PlayerAI : MonoBehaviour
         // Restart dataset after been desabled
         dataset.Clear();
         transform.localPosition = initialPos;
+        ErrorSum = 0;
     }
 
     // Update is called once per frame
