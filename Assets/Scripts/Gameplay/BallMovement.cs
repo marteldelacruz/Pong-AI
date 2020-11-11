@@ -15,6 +15,7 @@ public class BallMovement : MonoBehaviour
     private float MAX_SPEED = 10;
 
     public float Ydirection { set { BallDirection.y = value; } }
+    public float Xdirection { set { BallDirection.x = value; } }
     
     // Start is called before the first frame update
     void Start()
