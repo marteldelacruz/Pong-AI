@@ -51,20 +51,24 @@ public class PlayerAI : MonoBehaviour
     /// </summary>
     public void AIMovement()
     {
-        if (Ball.transform.position.y == transform.position.y)
+        float yDist = Ball.transform.localPosition.y - transform.localPosition.y;
+        if (yDist > 0)
+            Desired = 1;
+        else if (yDist < 0)
             Desired = 0;
-        else
-            Desired = Mathf.Sign(Ball.transform.position.y - transform.position.y);
+        else 
+            return;
 
-        y = Net.Compute(Ball.BallDirection);
+        // compute output and error
+        y = Net.Compute(yDist);
         Error = (Desired - y) * (Desired - y);
         ErrorSum += Error;
-
-        dataset.AddSample(Ball.BallDirection, Desired);
+        // save to dataset
+        dataset.AddSample(yDist, Desired);
         
-        if (y > 0)
+        if (y > 0.5f)
             GetComponent<PlayerControl>().MovePlayer();
-        else if (y < 0)
+        else
             GetComponent<PlayerControl>().MovePlayer(false);
     }
 
@@ -76,7 +80,7 @@ public class PlayerAI : MonoBehaviour
     {
         dataset = new Dataset();
         Net = new NeuralNet();
-        Net.Init(2, Topology);
+        Net.Init(1, Topology);
         ErrorSum = 0;
 
         initialPos = transform.localPosition;

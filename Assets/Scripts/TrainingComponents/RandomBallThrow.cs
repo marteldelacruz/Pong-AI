@@ -29,6 +29,8 @@ public class RandomBallThrow : MonoBehaviour
         pos.y = ((float)Rand.NextDouble() * Mathf.Abs(Limits.x - Limits.y)) + Limits.x ;
         gameObject.transform.position = pos;
         bMovement.Ydirection = ((float)Rand.NextDouble() * 2) - 1;
+        bMovement.RestartBallPosition();
+        bMovement.Xdirection = 1;
     }
 
     /// <summary>
