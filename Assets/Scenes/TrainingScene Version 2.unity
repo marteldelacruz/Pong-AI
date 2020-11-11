@@ -5528,7 +5528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220e67ebc1df32947b301abd3a058158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTraining: 1
+  IsTraining: 0
   Limits: {x: -5.2, y: 5.2}
 --- !u!114 &1976214169
 MonoBehaviour:
