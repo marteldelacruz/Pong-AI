@@ -7,14 +7,14 @@ public class Dataset
 {
     public Matrix<float> Desired, Samples;
 
-    private List<Vector2> directions;
+    private List<float> samples;
     private List<float> desireds;
 
     public int NumSamples { get { return Samples.RowCount; } }
 
     public Dataset() 
     {
-        directions = new List<Vector2>();
+        samples = new List<float>();
         desireds = new List<float>();
     }
 
@@ -23,9 +23,9 @@ public class Dataset
     /// </summary>
     /// <param name="dir">      Ball's direction    </param>
     /// <param name="desired">  Desired value       </param>
-    public void AddSample(Vector2 dir, float desired)
+    public void AddSample(float yDist, float desired)
     {
-        directions.Add(dir);
+        samples.Add(yDist);
         desireds.Add(desired);
     }
 
@@ -36,13 +36,12 @@ public class Dataset
     {
         var M = Matrix<float>.Build;
         int i = 0;
-        Samples = M.Dense(directions.Count, 2, 0);
-        Desired = M.Dense(directions.Count, 1, 0);
+        Samples = M.Dense(samples.Count, 1, 0);
+        Desired = M.Dense(samples.Count, 1, 0);
 
         foreach(Vector<float> row in Samples.EnumerateRows())
         {
-            row[0] = directions[i].x;
-            row[1] = directions[i].y;
+            row[0] = samples[i];
             i++;
         }
         i = 0;
@@ -59,6 +58,6 @@ public class Dataset
     public void Clear()
     {
         desireds.Clear();
-        directions.Clear();
+        samples.Clear();
     }
 }

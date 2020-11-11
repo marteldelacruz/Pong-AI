@@ -32,13 +32,13 @@ namespace Multilayer_Backprop
         /// <summary>
         ///     Computes the output of the given position of the ball
         /// </summary>
-        /// <param name="ballDirection"> Current ball direction </param>
+        /// <param name="ballYDist"> Ball distance from player </param>
         /// <returns>   Float with the output value </returns>
-        public float Compute(Vector2 ballDirection)
+        public float Compute(float ballYDist)
         {
             Matrix<float> y;
             Matrix<float> input = Matrix<float>.Build.DenseOfArray(new float[,] {
-                { ballDirection.x, ballDirection.y , -1}
+                { ballYDist , -1}
             });
 
             ForwardProp(input, out y);

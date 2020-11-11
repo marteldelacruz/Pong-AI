@@ -92,7 +92,7 @@ public class DiferentialEvolution
     private NeuralNet GenerateMutation(int currIndividual)
     {
         NeuralNet mutatedNet = new NeuralNet();
-        mutatedNet.Init(2, Topology);
+        mutatedNet.Init(1, Topology);
 
         // find three random individuals
         var indices = GenerateRandomIndex(currIndividual);
