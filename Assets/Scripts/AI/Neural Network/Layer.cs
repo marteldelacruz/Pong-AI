@@ -1,5 +1,6 @@
 ﻿using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Data.Text;
 using System;
 
 namespace Multilayer_Backprop
@@ -7,12 +8,18 @@ namespace Multilayer_Backprop
     /// <summary>
     ///     Represents a neural network's layer
     /// </summary>
+    [System.Serializable]
     public class Layer
     {
         public string Name;
         private int numNeurons, inputSize;
         public Matrix<float> W, Inputs, Outputs, OutputsPrime, Sensitivity;
         public static Random r = new Random();
+
+        /// <summary>
+        ///     Needed for XML serialization
+        /// </summary>
+        public Layer() { }
 
         public Layer(int neurons, int inputsDim)
         {
@@ -44,6 +51,17 @@ namespace Multilayer_Backprop
                 for (int j = 0; j < W.ColumnCount; j++)
                     W[i, j] = (float)r.NextDouble();
             }
+        }
+
+        public void Save()
+        {
+            string fileName = Name + ".csv";
+            DelimitedWriter.Write(fileName, W, ",");
+        }
+
+        public void Load()
+        {
+            W = DelimitedReader.Read<float>(Name + ".csv", false, ",", false);
         }
 
         /// <summary>

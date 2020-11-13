@@ -2,6 +2,7 @@
 using Multilayer_Backprop;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class RegionCollision : MonoBehaviour
@@ -13,7 +14,6 @@ public class RegionCollision : MonoBehaviour
     public BoxCollider RegionDummy3;
     public BoxCollider RegionDummy4;
     public BoxCollider RegionDummy5;
-
 
     private Bounds[] regions;
     private int[] classes;
@@ -85,34 +85,39 @@ public class RegionCollision : MonoBehaviour
         StartCoroutine(
             NeuralNetwork.BackpropagationTraining(datasetInputs, datasetDesireds)
         );
+        StartCoroutine(WaitForTrainingDone());
+    }
+
+    private IEnumerator WaitForTrainingDone()
+    {
+        while (NeuralNetwork.IsTraining)
+            yield return new WaitForEndOfFrame();
+
+        NeuralNetwork.SaveToCsv();
     }
 
     private void BuildDataset()
     {
         var M = Matrix<float>.Build;
-        int i = 0;
+        string binaryStr;
 
         datasetInputs = M.Dense(dataset.Count, 3);
         datasetDesireds = M.Dense(dataset.Count, OUTPUT_NEURONS);
 
-        foreach(Vector<float> row in datasetInputs.EnumerateRows())
+        for(int r = 0; r < datasetInputs.RowCount; r++)
         {
             // set each column with inputs...
-            row[0] = dataset[i].x;
-            row[1] = dataset[i].y;
-            row[2] = dataset[i].z;
-            i++;
+            datasetInputs[r, 0] = dataset[r].x;
+            datasetInputs[r, 1] = dataset[r].y;
+            datasetInputs[r, 2] = dataset[r].z;
+            // set desired
+            binaryStr = System.Convert.ToString((int)dataset[r].w, 2).PadLeft(4, '0');
+            datasetDesireds[r, 0] = float.Parse(binaryStr[0].ToString());
+            datasetDesireds[r, 1] = float.Parse(binaryStr[1].ToString());
+            datasetDesireds[r, 2] = float.Parse(binaryStr[2].ToString());
+            datasetDesireds[r, 3] = float.Parse(binaryStr[3].ToString());
         }
-        i = 0;
-        foreach(Vector<float> row in datasetDesireds.EnumerateRows())
-        {
-            // set each column with inputs...
-            string binaryStr = System.Convert.ToString((int)dataset[i].w, 2).PadLeft(4, '0');
-            row[0] = int.Parse(binaryStr[0].ToString());
-            row[1] = int.Parse(binaryStr[1].ToString());
-            row[2] = int.Parse(binaryStr[2].ToString());
-            row[3] = int.Parse(binaryStr[3].ToString());
-        }
+        ;
     }
 
     private void WriteDataset(Vector4 sample)

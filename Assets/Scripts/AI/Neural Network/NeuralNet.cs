@@ -7,20 +7,17 @@ namespace Multilayer_Backprop
     /// <summary>
     ///     Represents a neural network 
     /// </summary>
+    [System.Serializable]
     public class NeuralNet
     {
+        public bool IsTraining;
         public Layer[] layers;
         private float ETA, MIN_ERROR;
 
         /// <summary>
-        ///     Initializes perceptron with:<br></br> <c>eta = 0.5</c>
+        ///     Needed for XML serialization
         /// </summary>
-        /// <param name="td">   Training data's handler reference   </param>
-        public NeuralNet()
-        {
-            ETA = 0.1f;
-            MIN_ERROR = 0.01f;
-        }
+        public NeuralNet()  { }
 
         /// <summary>
         /// 
@@ -47,6 +44,29 @@ namespace Multilayer_Backprop
             ForwardProp(input, out y);
 
             return y[0, 0];
+        }
+
+        /// <summary>
+        ///     Receives input from <see cref="PlayerNerualNet"/> using the following format: <br></br>
+        ///     <c>input = { dir.x, dir.y, localPos.y }</c>
+        /// </summary>
+        /// <param name="vInput">    A vector containing formated input  </param>
+        /// <returns>   String of neurons' outputs  </returns>
+        public string Compute(Vector3 vInput)
+        {
+            var M = Matrix<float>.Build;
+            Matrix<float> input = M.DenseOfArray(new float[,] {
+                { vInput.x, vInput.y, vInput.z, -1 }
+            }), outputs;
+            string binary = "";
+
+            ForwardProp(input, out outputs);
+
+            foreach(Vector<float> neuronOutput in outputs.EnumerateRows())
+            {
+                binary += (neuronOutput[0] > 0.5f) ? "1" : "0";
+            }
+            return binary;
         }
 
         /// <summary>
@@ -81,6 +101,9 @@ namespace Multilayer_Backprop
             int dim = inputSize; // x1 and x2 (bias is added within Layer)
 
             layers = new Layer[topology.Length];
+            ETA = 0.1f;
+            MIN_ERROR = 0.01f;
+            IsTraining = false;
 
             for (int i = 0; i < topology.Length; i++)
             {
@@ -89,6 +112,18 @@ namespace Multilayer_Backprop
                     (i < topology.Length - 1) ? "Layer " + (i + 1).ToString() : "Output layer";
                 dim = topology[i];
             }
+        }
+
+        public void SaveToCsv()
+        {
+            foreach(Layer l in layers)
+                l.Save();
+        }
+
+        public void Load()
+        {
+            foreach (Layer l in layers)
+                l.Load();
         }
 
         /// <summary>
@@ -102,6 +137,8 @@ namespace Multilayer_Backprop
             var M = Matrix<float>.Build;
             Matrix<float> X = inputs.Append(M.Dense(numSamples, 1, -1)),
                           error, y, sample, desired;
+
+            IsTraining = true;
 
             while (!isDoneTraining)
             {
@@ -134,6 +171,8 @@ namespace Multilayer_Backprop
             Debug.Log(
                 string.Format("<size=22>NEURAL-NET Done with <color=red>ERROR={0:0.000}</color> and <color=blue>EPOCH={1}</color></size>", errorSum, numIter)
             );
+
+            IsTraining = false;
         }
 
         /// <summary>

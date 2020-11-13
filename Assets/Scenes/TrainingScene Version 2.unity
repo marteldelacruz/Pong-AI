@@ -3562,7 +3562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1493431247
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4061,8 +4061,12 @@ MonoBehaviour:
   RegionDummy3: {fileID: 1521109121}
   RegionDummy4: {fileID: 713138828}
   RegionDummy5: {fileID: 1883667179}
+  AINet: {fileID: 11400000, guid: f1565e775d05b5f4ca77320ca396c2c6, type: 2}
   BallPosition: {x: 0, y: 0}
   BallDir: {x: 0, y: 0}
+  NeuralNetwork:
+    IsTraining: 0
+    layers: []
 --- !u!82 &1579400980
 AudioSource:
   m_ObjectHideFlags: 0
