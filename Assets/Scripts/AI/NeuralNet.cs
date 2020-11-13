@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using System.Collections;
 using UnityEngine;
 
 namespace Multilayer_Backprop
@@ -9,7 +10,7 @@ namespace Multilayer_Backprop
     public class NeuralNet
     {
         public Layer[] layers;
-        private float ETA;
+        private float ETA, MIN_ERROR;
 
         /// <summary>
         ///     Initializes perceptron with:<br></br> <c>eta = 0.5</c>
@@ -17,6 +18,8 @@ namespace Multilayer_Backprop
         /// <param name="td">   Training data's handler reference   </param>
         public NeuralNet()
         {
+            ETA = 0.1f;
+            MIN_ERROR = 0.01f;
         }
 
         /// <summary>
@@ -86,6 +89,51 @@ namespace Multilayer_Backprop
                     (i < topology.Length - 1) ? "Layer " + (i + 1).ToString() : "Output layer";
                 dim = topology[i];
             }
+        }
+
+        /// <summary>
+        ///     Starts neuralnet's learning algorithm
+        /// </summary>
+        public IEnumerator BackpropagationTraining(Matrix<float> inputs, Matrix<float> desireds)
+        {
+            int numIter = 0, numSamples = inputs.RowCount;
+            bool isDoneTraining = numSamples == 0;
+            float errorSum = 0, sum;
+            var M = Matrix<float>.Build;
+            Matrix<float> X = inputs.Append(M.Dense(numSamples, 1, -1)),
+                          error, y, sample, desired;
+
+            while (!isDoneTraining)
+            {
+                sum = 0;
+                for (int i = 0; i < numSamples; i++)
+                {
+                    sample = X.Row(i).ToRowMatrix();
+                    // desired to row-mayor matrix
+                    desired = desireds.Row(i).ToRowMatrix().Transpose();
+
+                    ForwardProp(sample, out y);
+                    error = desired - y;
+                    Backprop(error);
+                    UpdateWeights();
+
+                    error = error.PointwisePower(2);
+                    sum += error.ColumnSums().Sum();
+                }
+                errorSum = sum / numSamples;
+                if (numIter % 50 == 0)
+                {   // Notify Ui of weight change
+                    Debug.Log(
+                        string.Format("<size=22><color=blue>EPOCH={0}</color>     <color=red>ERROR={1:0.000}</color></size>", numIter, errorSum)
+                    );
+                }
+                numIter++;
+                isDoneTraining = (errorSum < MIN_ERROR || numIter > 5000);
+                yield return null;
+            }
+            Debug.Log(
+                string.Format("<size=22>NEURAL-NET Done with <color=red>ERROR={0:0.000}</color> and <color=blue>EPOCH={1}</color></size>", errorSum, numIter)
+            );
         }
 
         /// <summary>

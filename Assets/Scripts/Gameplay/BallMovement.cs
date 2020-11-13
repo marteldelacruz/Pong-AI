@@ -12,7 +12,7 @@ public class BallMovement : MonoBehaviour
 
 
     public Vector3 BallDirection;
-    private float MAX_SPEED = 10;
+    private float MAX_SPEED = 20;
 
     public float Ydirection { set { BallDirection.y = value; } }
     public float Xdirection { set { BallDirection.x = value; } }
