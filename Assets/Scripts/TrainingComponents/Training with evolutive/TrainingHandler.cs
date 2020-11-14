@@ -1,23 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+///     Manages training by using differential evolution 
+/// </summary>
 public class TrainingHandler : MonoBehaviour
 {
+    [Tooltip("Population of individuals")]
     public int TotalPlayers = 10;
+    [Tooltip("Number of dead players")]
     public int DisabledPlayers = 0;
+    [Tooltip("Base individual (will make copy of this gameObject)")]
     public GameObject Individual;
-    public PlayerAI[] Individuals;
+    [Tooltip("Copies of Individual will be set as children of this Parent")]
     public GameObject Parent;
+    [Tooltip("Path where the best network will be saved")]
+    public string FilePath;
+
+    [HideInInspector]
+    public PlayerAI[] Individuals;
+
+    //  Algorithm handler
     private DiferentialEvolution DiferentialEvolution;
-    
-    Vector3 pos;
+    private int MAX_GENERATIONS = 3, currentGeneration = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         DiferentialEvolution = new DiferentialEvolution();
         Individuals = new PlayerAI[TotalPlayers];
-        pos = Individual.transform.position;
         DuplicatePlayers();
 
         // Start waiting...
@@ -29,6 +40,7 @@ public class TrainingHandler : MonoBehaviour
     /// </summary>
     public void DuplicatePlayers()
     {
+        Vector3 pos = Individual.transform.position;
         for (int i = 0; i < TotalPlayers - 1; i++)
         {
             pos.z = -(i + 1);
@@ -45,8 +57,12 @@ public class TrainingHandler : MonoBehaviour
     /// </summary>
     public IEnumerator CheckDisabledPlayers()
     {
-        while(DisabledPlayers < TotalPlayers)
-            yield return new WaitForEndOfFrame();
+        Debug.Log("Corrutina inicia");
+        //while(DisabledPlayers < TotalPlayers)
+        yield return new WaitForSecondsRealtime(10);
+
+        foreach (PlayerAI p in Individuals)
+            p.transform.parent.gameObject.SetActive(false);
 
         // start diferential evolution
         DiferentialEvolution.Individuals = Individuals;
@@ -61,7 +77,17 @@ public class TrainingHandler : MonoBehaviour
         foreach (PlayerAI p in Individuals)
             p.transform.parent.gameObject.SetActive(true);
 
-        DisabledPlayers = 0;
-        StartCoroutine(CheckDisabledPlayers());
+        if (currentGeneration < MAX_GENERATIONS)
+        {
+            currentGeneration++;
+            DisabledPlayers = 0;
+            StartCoroutine(CheckDisabledPlayers());
+        }
+        else
+        {
+            Debug.Log("TRAINING DONE");
+            Individuals[xBest].Net.SaveToCsv(FilePath);
+            Debug.Log("Saved to => " + FilePath);
+        }
     }
 }

@@ -13,10 +13,12 @@ public class PlayerControl : MonoBehaviour
     [HideInInspector]
     public Vector3 MovementDir = Vector3.zero;
 
+    private Vector3 OldPosition;
     private Rigidbody playerRigidbody = null;
 
     private void Start()
     {
+        OldPosition = transform.position;
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
@@ -65,5 +67,13 @@ public class PlayerControl : MonoBehaviour
         MovementDir *= Time.deltaTime * Speed;
 
         playerRigidbody.velocity = MovementDir * Speed;
+    }
+
+    /// <summary>
+    ///     Puts this player back on original position
+    /// </summary>
+    public void RestartPosition()
+    {
+        transform.position = OldPosition;
     }
 }

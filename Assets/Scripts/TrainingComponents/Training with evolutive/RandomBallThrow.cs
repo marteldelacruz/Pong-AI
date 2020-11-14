@@ -30,7 +30,7 @@ public class RandomBallThrow : MonoBehaviour
         gameObject.transform.position = pos;
         bMovement.Ydirection = ((float)Rand.NextDouble() * 2) - 1;
         bMovement.RestartBallPosition();
-        bMovement.Xdirection = 1;
+        bMovement.Xdirection = -bMovement.BallDirection.x;
     }
 
     /// <summary>

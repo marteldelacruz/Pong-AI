@@ -7,7 +7,13 @@ using UnityEngine;
 public class PlayerAI : MonoBehaviour
 {
     public BallMovement Ball;
+    public bool IsLeftSide = true;
+    public bool IsTraining = false;
+    public string FilePath;
+
+    [HideInInspector]
     public int[] Topology = new int[] { 6, 1 };
+    [HideInInspector]
     public NeuralNet Net;
     public float Desired, y, Error, ErrorSum;
 
@@ -29,8 +35,14 @@ public class PlayerAI : MonoBehaviour
     private void OnEnable()
     {
         if (dataset == null)
+        {
             InitNeuralNet();
-
+            if (FilePath.Length > 0)
+            {
+                Net.Load(FilePath);
+                Debug.Log("Cargada red neuronal (evolutiva) de " + name);
+            }
+        }
         // Restart dataset after been desabled
         dataset.Clear();
         transform.localPosition = initialPos;
@@ -40,10 +52,10 @@ public class PlayerAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Ball.BallDirection.x < 0)
-        {
+        if (Ball.BallDirection.x > 0)
             AIMovement();
-        }
+        //else if(!IsLeftSide && Ball.BallDirection.x > 0)
+        //    AIMovement();
     }
 
     /// <summary>
@@ -51,7 +63,7 @@ public class PlayerAI : MonoBehaviour
     /// </summary>
     public void AIMovement()
     {
-        float yDist = Ball.transform.localPosition.y - transform.localPosition.y;
+        float yDist = Ball.transform.position.y - transform.position.y;
         if (yDist > 0)
             Desired = 1;
         else if (yDist < 0)
@@ -61,10 +73,14 @@ public class PlayerAI : MonoBehaviour
 
         // compute output and error
         y = Net.Compute(yDist);
-        Error = (Desired - y) * (Desired - y);
-        ErrorSum += Error;
-        // save to dataset
-        dataset.AddSample(yDist, Desired);
+
+        if (IsTraining)
+        {
+            Error = (Desired - y) * (Desired - y);
+            ErrorSum += Error;
+            // save to dataset
+            dataset.AddSample(yDist, Desired);
+        }
         
         if (y > 0.5f)
             GetComponent<PlayerControl>().MovePlayer();

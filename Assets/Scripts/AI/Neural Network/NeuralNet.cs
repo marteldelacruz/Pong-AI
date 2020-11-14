@@ -114,16 +114,24 @@ namespace Multilayer_Backprop
             }
         }
 
-        public void SaveToCsv()
+        /// <summary>
+        ///     Saves this network to given path
+        /// </summary>
+        /// <param name="basePath"> File path of this network   </param>
+        public void SaveToCsv(string basePath)
         {
             foreach(Layer l in layers)
-                l.Save();
+                l.Save(basePath);
         }
 
-        public void Load()
+        /// <summary>
+        ///     Loads this network from given path
+        /// </summary>
+        /// <param name="basePath"> File path of this network   </param>
+        public void Load(string basePath)
         {
             foreach (Layer l in layers)
-                l.Load();
+                l.Load(basePath);
         }
 
         /// <summary>

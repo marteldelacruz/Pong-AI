@@ -371,7 +371,7 @@ Transform:
   - {fileID: 1573664726}
   - {fileID: 813314439}
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &366459784
 GameObject:
@@ -584,7 +584,7 @@ Transform:
   - {fileID: 1617013761}
   - {fileID: 1583763505}
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -681,7 +681,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &536377457
 GameObject:
@@ -929,7 +929,7 @@ Transform:
   - {fileID: 1985824957}
   - {fileID: 1263146681}
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &645909095
 MonoBehaviour:
@@ -1452,7 +1452,7 @@ Transform:
   m_LocalScale: {x: 0.13978352, y: 0.3749991, z: 1}
   m_Children: []
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &808964652
 Rigidbody:
@@ -2728,6 +2728,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1808587959}
   - {fileID: 519420032}
   - {fileID: 1495809785}
   - {fileID: 808964651}
@@ -3303,6 +3304,7 @@ GameObject:
   - component: {fileID: 1305141200}
   - component: {fileID: 1305141201}
   - component: {fileID: 1305141204}
+  - component: {fileID: 1305141205}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -3373,7 +3375,7 @@ Transform:
   m_LocalScale: {x: 0.149882, y: 1.5680815, z: 1}
   m_Children: []
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1305141199
 Rigidbody:
@@ -3390,7 +3392,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 122
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1305141200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3541,6 +3543,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerText: {fileID: 1266691276}
+--- !u!114 &1305141205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305141196}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48adbb784bff0af478336ea019c7b885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 808964653}
+  IsLeftSide: 0
+  IsTraining: 0
+  FilePath: ./Assets/Saved AI's/Evolutive AI/
+  Topology: 0600000001000000
+  Net:
+    IsTraining: 0
+    layers: []
+  Desired: 0
+  y: 0
+  Error: 0
+  ErrorSum: 0
 --- !u!1 &1338173267
 GameObject:
   m_ObjectHideFlags: 0
@@ -4215,7 +4241,7 @@ Transform:
   m_LocalScale: {x: 201.44565, y: 114.07895, z: 1}
   m_Children: []
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1516621480
 GameObject:
@@ -4382,7 +4408,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1555260364}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1493431249}
+        m_TargetAssemblyTypeName: PauseMenuGameplay, Assembly-CSharp
+        m_MethodName: AIvsAI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1555260364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5648,6 +5686,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1808587958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808587959}
+  - component: {fileID: 1808587960}
+  - component: {fileID: 1808587961}
+  m_Layer: 0
+  m_Name: Guard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1808587959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808587958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.46, z: -8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1111510217}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1808587960
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808587958}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25.2, y: 16.1, z: 3.9112625}
+  m_Center: {x: -0.025175095, y: 1.497056, z: 0.036333084}
+--- !u!114 &1808587961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808587958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23504ed5e535d144bb8f59aa6c55112b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 808964653}
+  Player1: {fileID: 1951798885}
+  Player2: {fileID: 1305141201}
 --- !u!1 &1910304768
 GameObject:
   m_ObjectHideFlags: 0
@@ -5817,7 +5915,7 @@ Transform:
   m_LocalScale: {x: 0.149882, y: 1.5680815, z: 1}
   m_Children: []
   m_Father: {fileID: 1111510217}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1951798883
 Rigidbody:
@@ -5997,13 +6095,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428fc8bd9cd4a6946ab2a32cd0a6124a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI: {fileID: 11400000, guid: f1565e775d05b5f4ca77320ca396c2c6, type: 2}
+  PlayerVelocity: 10
   Regions:
   - {fileID: 366459785}
   - {fileID: 544324739}
   - {fileID: 1260445014}
   - {fileID: 1617013761}
   - {fileID: 1583763505}
+  FilePath: ./Assets/Saved AI's/Backprop AI/
 --- !u!1 &1985824956
 GameObject:
   m_ObjectHideFlags: 0

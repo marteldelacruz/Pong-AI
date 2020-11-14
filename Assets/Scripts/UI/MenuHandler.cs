@@ -10,7 +10,7 @@ public class MenuHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MenuUI.SetActive(!MenuUI.activeSelf);
+        MenuUI.SetActive(false);
         ShowMenu();
     }
 

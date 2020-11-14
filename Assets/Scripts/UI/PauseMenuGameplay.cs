@@ -33,9 +33,29 @@ public class PauseMenuGameplay : MonoBehaviour
     /// </summary>
     public void AIvsHuman()
     {
-        bool isHuman = Player1.GetComponent<PlayerControl>().UserInput;
-        Player1.GetComponent<PlayerControl>().UserInput = !isHuman;
-        LineInMiddle.IsAIPlaying = isHuman;
-        Player1.GetComponent<PlayerNerualNet>().enabled = isHuman;
+        // disables user's input
+        Player1.GetComponent<PlayerControl>().UserInput = false;
+
+        // enable AI
+        LineInMiddle.IsAIPlaying = true;
+        Player1.GetComponent<PlayerNerualNet>().enabled = true;
+
+        Debug.Log("IAvsPlayer => ACTIVADO");
+    }
+
+    /// <summary>
+    ///     Enables/disables AI in player 1 and 2
+    /// </summary>
+    public void AIvsAI()
+    {
+        // disables user's input
+        Player1.GetComponent<PlayerControl>().UserInput = false;
+        Player2.GetComponent<PlayerControl>().UserInput = false;
+
+        // enable AI
+        LineInMiddle.IsAIPlaying = true;
+        Player1.GetComponent<PlayerNerualNet>().enabled = true;
+        Player2.GetComponent<PlayerAI>().enabled = true;
+        Debug.Log("IAvsIA => ACTIVATED");
     }
 }

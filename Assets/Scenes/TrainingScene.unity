@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88308186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.684, y: -0.14499998, z: -8}
+  m_LocalPosition: {x: 8.684, y: -0.14499998, z: -8}
   m_LocalScale: {x: 0.149882, y: 1.5680815, z: 1}
   m_Children: []
   m_Father: {fileID: 956954770}
@@ -263,8 +263,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.30106106, y: 1.36, z: 0.2}
-  m_Center: {x: 1.7094694, y: 0, z: 0}
+  m_Size: {x: 0.31475627, y: 1.36, z: 0.20000038}
+  m_Center: {x: -1.7212609, y: 0, z: -0.0000001937151}
 --- !u!82 &88308193
 AudioSource:
   m_ObjectHideFlags: 0
@@ -425,7 +425,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ball: {fileID: 1976214169}
+  IsLeftSide: 0
+  IsTraining: 1
+  FilePath: 
   Topology: 0600000001000000
+  Net:
+    IsTraining: 0
+    layers: []
   Desired: 0
   y: 0
   Error: 0
@@ -1152,8 +1158,9 @@ MonoBehaviour:
   TotalPlayers: 10
   DisabledPlayers: 0
   Individual: {fileID: 956954769}
-  Individuals: []
   Parent: {fileID: 1629427925}
+  FilePath: ./Assets/Saved AI's/Evolutive AI/
+  Individuals: []
 --- !u!4 &647942266
 Transform:
   m_ObjectHideFlags: 0
@@ -3677,6 +3684,7 @@ MonoBehaviour:
   PlayerVsPlayerBtn: {fileID: 1107113085}
   PlayerVsAiBtn: {fileID: 847784671}
   AiVsAiBtn: {fileID: 1555260361}
+  MainRegion: {fileID: 0}
 --- !u!223 &1493431250
 Canvas:
   m_ObjectHideFlags: 0
@@ -3942,7 +3950,7 @@ GameObject:
   - component: {fileID: 1579400979}
   - component: {fileID: 1579400980}
   m_Layer: 0
-  m_Name: Left
+  m_Name: Right
   m_TagString: LeftWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3956,7 +3964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579400977}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -12.81, y: -1.63, z: 0}
+  m_LocalPosition: {x: 8.56, y: -1.63, z: 0}
   m_LocalScale: {x: 5.8826747, y: 0.55298555, z: 1}
   m_Children: []
   m_Father: {fileID: 18060980}
@@ -4152,7 +4160,7 @@ GameObject:
   - component: {fileID: 1582721386}
   - component: {fileID: 1582721385}
   m_Layer: 0
-  m_Name: Right
+  m_Name: Left
   m_TagString: RightWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4166,7 +4174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582721383}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 8.56, y: -0.52, z: 0}
+  m_LocalPosition: {x: -12.81, y: -0.52, z: 0}
   m_LocalScale: {x: 5.8826747, y: 0.55298555, z: 1}
   m_Children: []
   m_Father: {fileID: 18060980}

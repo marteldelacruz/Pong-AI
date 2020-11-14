@@ -8,6 +8,7 @@ using UnityEngine;
 public class RegionCollision : MonoBehaviour
 {
     public bool IsRecording = false;
+    public string FilePath;
 
     public BoxCollider RegionDummy1;
     public BoxCollider RegionDummy2;
@@ -93,7 +94,8 @@ public class RegionCollision : MonoBehaviour
         while (NeuralNetwork.IsTraining)
             yield return new WaitForEndOfFrame();
 
-        NeuralNetwork.SaveToCsv();
+        NeuralNetwork.SaveToCsv(FilePath);
+        Debug.Log("SAVED IN => " + FilePath);
     }
 
     private void BuildDataset()

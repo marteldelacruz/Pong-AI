@@ -10,8 +10,9 @@ using UnityEngine;
 /// </summary>
 public class PlayerNerualNet : MonoBehaviour
 {
-
+    public int PlayerVelocity = 3;
     public Transform[] Regions;
+    public string FilePath;
 
     private NeuralNet AI;
     private PlayerControl controls;
@@ -34,7 +35,8 @@ public class PlayerNerualNet : MonoBehaviour
 
         AI = new NeuralNet();
         AI.Init(3, new int[] { 8, 4 });
-        AI.Load();
+        AI.Load(FilePath);
+        Debug.Log("Cargó red neuronal (backprop) de " + name);
     }
 
     public void Predict(Vector3 input)
@@ -53,11 +55,16 @@ public class PlayerNerualNet : MonoBehaviour
         }
         Debug.Log("Predice Clase " + _class.ToString() + "  BINARIO=" + binary);
 
-        transform.position = Regions[index].position;
+        //transform.position = Regions[index].position;
         // start moving the AI
-        //StartCoroutine(MoveToClass(Regions[index].position));
+        StartCoroutine(MoveToClass(Regions[index].position));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     private IEnumerator MoveToClass(Vector3 position)
     {
         bool keepMoving = true;
@@ -68,13 +75,10 @@ public class PlayerNerualNet : MonoBehaviour
             dir = position - transform.position;
             dist = dir.magnitude;
 
-            if (dir.y > 0)
-                controls.MovePlayer();
-            else if (dir.y < 0)
-                controls.MovePlayer(false);
+            transform.position += dir.normalized * PlayerVelocity * Time.deltaTime;
 
             keepMoving = dist > 0.5f;
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
     }
 }

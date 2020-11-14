@@ -53,15 +53,23 @@ namespace Multilayer_Backprop
             }
         }
 
-        public void Save()
+        /// <summary>
+        ///     Saves this layer to given path
+        /// </summary>
+        /// <param name="basePath"> Should be a folder name <c>Assets/SavedNetworks/AIType/</c></param>
+        public void Save(string basePath)
         {
-            string fileName = Name + ".csv";
+            string fileName = basePath + Name + ".csv";
             DelimitedWriter.Write(fileName, W, ",");
         }
 
-        public void Load()
+        /// <summary>
+        ///     Loads this layer from given path
+        /// </summary>
+        /// <param name="basePath"> Should be a folder name <c>Assets/SavedNetworks/AIType/</c></param>
+        public void Load(string basePath)
         {
-            W = DelimitedReader.Read<float>(Name + ".csv", false, ",", false);
+            W = DelimitedReader.Read<float>(basePath + Name + ".csv", false, ",", false);
         }
 
         /// <summary>

@@ -6,13 +6,13 @@ using UnityEngine;
 public class BallMovement : MonoBehaviour
 {
     [Tooltip("Ball speed")]
-    public float Speed = 2f;
+    public float Speed = 7f;
     [Tooltip("Ball initial position 3D Vector")]
     public Vector3 InitialPosition = new Vector3(0, 1, 0);
 
 
     public Vector3 BallDirection;
-    private float MAX_SPEED = 20;
+    private float MAX_SPEED = 10;
 
     public float Ydirection { set { BallDirection.y = value; } }
     public float Xdirection { set { BallDirection.x = value; } }
